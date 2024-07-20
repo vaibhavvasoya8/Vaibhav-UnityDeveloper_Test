@@ -6,6 +6,7 @@ public class GravityController : MonoBehaviour
 {
     private Vector3 gravityDirection = Vector3.down;
     [SerializeField] Transform characterTransform;
+    [SerializeField] Transform characterTopPos;
     [SerializeField] Transform cameraTransform;
 
     [SerializeField] GameObject characterHolo;
@@ -16,6 +17,7 @@ public class GravityController : MonoBehaviour
     private void Start()
     {
         player = characterTransform.GetComponent<PlayerController>();
+        Physics.gravity = Vector3.down * 9.81f;
     }
 
     void Update()
@@ -57,7 +59,7 @@ public class GravityController : MonoBehaviour
             Physics.gravity = gravityDirection * 9.81f;
             characterTransform.GetComponent<Collider>().enabled = false;
             RotateCharacterToGravityDirection();
-            RotateCameraToGravityDirection();
+           // RotateCameraToGravityDirection();
             characterTransform.GetComponent<Collider>().enabled = true;
         }
         
@@ -84,6 +86,7 @@ public class GravityController : MonoBehaviour
     }
     void RotateCharacterToGravityDirection()
     {
+        characterTransform.position = characterTopPos.position;
         // Calculate the up direction as the opposite of the gravity direction
         Vector3 upDirection = -gravityDirection;
 

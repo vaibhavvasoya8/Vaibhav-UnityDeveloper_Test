@@ -9,8 +9,6 @@ namespace Player
         float direction;
         PlayerController player;
 
-        Vector3 gravity;
-        Vector3 raycastFloorPos;
 
         public override void EnterState(PlayerController _player)
         {
@@ -52,40 +50,15 @@ namespace Player
             
         }
 
-        public override void FixedUpdateState()
-        {
-            base.FixedUpdateState();
-            // if not grounded , increase down force
-            player.animator.SetBool("IsGrounded", (FloorRaycasts(0, 0, 2f) != Vector3.zero));
-            if (FloorRaycasts(0, 0, 2f) == Vector3.zero)
-            {
-                gravity += player.gravityDirection * player.gravityForce * Time.fixedDeltaTime;
-            }
-
-        }
-        
-        Vector3 FloorRaycasts(float offsetx, float offsetz, float raycastLength)
-        {
-            RaycastHit hit;
-            // move raycast
-            raycastFloorPos = player.transform.TransformPoint(0 + offsetx, 0.5f, 0 + offsetz);
-
-            Debug.DrawRay(raycastFloorPos, player.gravityDirection * raycastLength, Color.magenta);
-            if (Physics.Raycast(raycastFloorPos, player.gravityDirection, out hit, raycastLength))
-            {
-                return hit.point;
-            }
-            else return Vector3.zero;
-        }
-    
+       
 
 
         public override void OnCollisionEnterState(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                player.isGrounded = true;
-            }
+            //if (collision.gameObject.CompareTag("Ground"))
+            //{
+            //    player.isGrounded = true;
+            //}
         }
     }
 }

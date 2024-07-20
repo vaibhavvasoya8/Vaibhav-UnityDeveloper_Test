@@ -24,11 +24,11 @@ namespace Player
 
         public override void OnCollisionEnterState(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                player.isGrounded = true;
-                //  player.animator.SetBool("IsJumping", false);
-            }
+            //if (collision.gameObject.CompareTag("Ground"))
+            //{
+            //    player.isGrounded = true;
+            //    //  player.animator.SetBool("IsJumping", false);
+            //}
         }
     }
 }
