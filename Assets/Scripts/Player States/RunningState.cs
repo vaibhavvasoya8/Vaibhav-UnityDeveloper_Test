@@ -7,18 +7,14 @@ namespace Player
     public class RunningState : PlayerState
     {
         float direction;
-        PlayerController player;
-
 
         public override void EnterState(PlayerController _player)
         {
             if (player == null) player = _player;
-            // player.animator.SetFloat("Speed", 1);
         }
 
         public override void UpdateState()
         {
-
             Vector3 movement = new Vector3(player.playerInput.horizontalInput, 0.0f, player.playerInput.verticalInput).normalized;
 
             if (movement.magnitude >= 0.1f)
@@ -46,19 +42,6 @@ namespace Player
             {
                 player.TransitionToState(player.jumpingState);
             }
-
-            
-        }
-
-       
-
-
-        public override void OnCollisionEnterState(Collision collision)
-        {
-            //if (collision.gameObject.CompareTag("Ground"))
-            //{
-            //    player.isGrounded = true;
-            //}
         }
     }
 }

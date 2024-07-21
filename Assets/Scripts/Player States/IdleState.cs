@@ -24,13 +24,5 @@ namespace Player
             }
         }
 
-        public override void OnCollisionEnterState(Collision collision)
-        {
-            //if (collision.gameObject.CompareTag("Ground"))
-            //{
-            //    player.isGrounded = true;
-            //}
-        }
-
     }
 }

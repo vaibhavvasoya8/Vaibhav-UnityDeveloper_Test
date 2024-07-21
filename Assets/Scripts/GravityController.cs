@@ -13,61 +13,62 @@ public class GravityController : MonoBehaviour
     [SerializeField] Transform characterHoloPosition;
 
     PlayerController player;
-    
+
+    public Vector3 currentGravityDirection;
+
     private void Start()
     {
         player = characterTransform.GetComponent<PlayerController>();
         Physics.gravity = Vector3.down * 9.81f;
+        currentGravityDirection = Vector3.down;
     }
 
     void Update()
     {
         HandleGravityInput();
     }
-    float cameraAngle;
     
     void HandleGravityInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            gravityDirection = GetProjectedDirection(cameraTransform.forward);
+            gravityDirection = GetProjectedDirection(characterTransform.forward);
             ShowHologram(gravityDirection);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            gravityDirection = GetProjectedDirection(-cameraTransform.forward);// GetCameraFlatForward();
+            gravityDirection = GetProjectedDirection(-characterTransform.forward);// GetCameraFlatForward();
             ShowHologram(gravityDirection);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            gravityDirection = GetProjectedDirection(-cameraTransform.right);
+            gravityDirection = GetProjectedDirection(-characterTransform.right);
             ShowHologram(gravityDirection);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            gravityDirection = GetProjectedDirection(cameraTransform.right);
+            gravityDirection = GetProjectedDirection(characterTransform.right);
             ShowHologram(gravityDirection);
         }
         else if(player.playerInput.horizontalInput != 0 || player.playerInput.verticalInput != 0)
         {
             HideHologram();
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && currentGravityDirection != gravityDirection)
         {
+            currentGravityDirection = gravityDirection;
             HideHologram();
             player.UpdateGravityDirection(gravityDirection);
             Physics.gravity = gravityDirection * 9.81f;
-            characterTransform.GetComponent<Collider>().enabled = false;
             RotateCharacterToGravityDirection();
-           // RotateCameraToGravityDirection();
-            characterTransform.GetComponent<Collider>().enabled = true;
+            // RotateCameraToGravityDirection();
         }
         
     }
     //Remove camera rotation
     Vector3 GetProjectedDirection(Vector3 direction)
     {
-        Vector3 projectedDirection = Vector3.ProjectOnPlane(direction, cameraTransform.up);
+        Vector3 projectedDirection = Vector3.ProjectOnPlane(direction, characterTransform.up);
         return projectedDirection.normalized;
     }
     

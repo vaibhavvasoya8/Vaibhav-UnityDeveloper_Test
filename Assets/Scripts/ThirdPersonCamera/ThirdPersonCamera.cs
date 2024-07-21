@@ -4,23 +4,32 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
-    public Transform target; // The player
-    public float distance = 5.0f; // Distance from the player
-    public float height = 2.0f; // Height above the player
-    public float smoothSpeed = 0.125f; // Smooth speed for camera movement
+    [SerializeField] Transform target; // The player
+    [SerializeField] float distance = 5.0f; // Distance from the player
+    [SerializeField] float height = 2.0f; // Height above the player
+    [SerializeField] float smoothSpeed = 0.125f; // Smooth speed for camera movement
 
     private Vector3 offset;
     private Quaternion targetRotation;
 
+    [SerializeField] GameObject objCameraChangeHint;
+
+
     void Start()
     {
+        objCameraChangeHint.SetActive(true);
         targetRotation = transform.rotation;
+        offset = new Vector3(0, height, -distance);
+        Invoke("HideCameraHint", 5);
     }
 
     void LateUpdate()
     {
-        offset = new Vector3(0, height, -distance);
         FollowPlayer();
+        if(Input.GetMouseButtonDown(0))
+        {
+            offset = new Vector3(0, height, -offset.z);
+        }
     }
 
     void FollowPlayer()
@@ -36,18 +45,9 @@ public class ThirdPersonCamera : MonoBehaviour
         targetRotation = Quaternion.LookRotation(target.position - transform.position, target.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smoothSpeed);
     }
-    //public Transform target;
-    //public Vector3 offset;
-    //public float smoothSpeed = 0.125f;
 
-    //void LateUpdate()
-    //{
-    //    // Calculate the new camera position based on the player's up direction
-    //    Vector3 desiredPosition = target.position + offset;
-
-    //    // Smoothly interpolate to the new position
-    //    Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-    //    transform.position = smoothedPosition;
-    //}
-
+    void HideCameraHint()
+    {
+        objCameraChangeHint.SetActive(false);
+    }
 }
